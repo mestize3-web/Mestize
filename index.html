@@ -9,31 +9,24 @@
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Impact', 'Arial Black', sans-serif; }
     body { background-color: #0d0d0d; color: #fff; text-align: center; padding-bottom: 110px; }
 
-    /* Header y Logo */
     header { background: #000; padding: 15px; border-bottom: 3px solid #e60000; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
     .logo-container { display: flex; align-items: center; gap: 10px; cursor: pointer; position: relative; }
-    .logo-img { max-height: 50px; object-fit: contain; }
     .logo-text { font-size: 26px; color: #fff; letter-spacing: 1px; }
     .logo-text span { color: #e60000; }
     
-    /* Botón Modo Editar Secreto */
     .admin-btn { background: #e60000; color: #fff; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; font-family: sans-serif; display: none; }
 
-    /* Banner Principal */
     .container { max-width: 900px; margin: 0 auto; padding: 15px; }
     .banner-title { font-size: 32px; color: #fff; letter-spacing: 2px; margin-top: 10px; }
     .banner-subtitle { font-size: 28px; color: #e60000; font-style: italic; margin-bottom: 20px; }
 
-    /* Botones Destacados Grandes */
     .featured-btn { background: #fff; color: #000; border: 3px solid #e60000; border-radius: 12px; padding: 15px; font-size: 24px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 15px; margin: 20px 0; cursor: pointer; position: relative; }
     .featured-btn i { color: #000; font-size: 30px; }
 
-    /* Rejilla de Carpetas Principal */
     .folder-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 15px; margin: 20px 0; }
     
-    /* Tarjetas de Producto */
     .folder-card { background: #fff; color: #000; border-radius: 12px; border: 2px solid #e60000; padding: 12px; display: flex; align-items: center; gap: 12px; text-align: left; position: relative; box-shadow: 0 4px 10px rgba(230,0,0,0.3); }
-    .card-icon-box { width: 65px; height: 65px; min-width: 65px; border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden; background: #f9f9f9; cursor: pointer; }
+    .card-icon-box { width: 65px; height: 65px; min-width: 65px; border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden; background: #f9f9f9; cursor: pointer; position: relative; }
     .card-icon-box i { font-size: 38px; color: #000; }
     .card-icon-box img { width: 100%; height: 100%; object-fit: cover; }
     .card-info { flex-grow: 1; }
@@ -41,21 +34,17 @@
     .card-desc { font-size: 11px; font-family: sans-serif; color: #555; }
     .badge-add { position: absolute; bottom: 8px; right: 8px; background: #e60000; color: #fff; width: 20px; height: 20px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; }
 
-    /* Sección Trabajos Terminados */
     .finished-section { margin-top: 30px; }
     .scroll-horizontal { display: flex; gap: 12px; overflow-x: auto; padding: 10px 0; }
     .finished-item { min-width: 130px; height: 130px; background: #1a1a1a; border-radius: 8px; border: 1px solid #333; overflow: hidden; position: relative; display: flex; align-items: center; justify-content: center; }
     .finished-item img { width: 100%; height: 100%; object-fit: cover; }
     .tag-delivered { position: absolute; top: 5px; right: 5px; background: #e60000; color: #fff; font-size: 9px; font-family: sans-serif; padding: 2px 5px; border-radius: 3px; font-weight: bold; }
 
-    /* Footer Fijo con Contacto */
     .footer-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: #000; border-top: 2px solid #e60000; display: flex; justify-content: space-around; padding: 8px 0; z-index: 1000; }
     .footer-btn { color: #fff; text-decoration: none; font-size: 10px; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; gap: 3px; }
     .footer-btn i { font-size: 20px; color: #e60000; }
 
-    /* Modo Edición Visual */
     body.editing-active .editable { outline: 1px dashed #e60000; }
-    body.editing-active .card-icon-box::after { content: '+'; position: absolute; background: rgba(230,0,0,0.8); color: #fff; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 20px; }
   </style>
 </head>
 <body>
@@ -63,14 +52,13 @@
   <header>
     <div class="logo-container" onclick="triggerFile('logo-input')">
       <div class="logo-text" id="site-logo-text">MS<span>TZ</span> <small style="font-size: 12px; color: #fff;">by MESTIZE</small></div>
-      <input type="file" id="logo-input" accept="image/*" style="display:none" onchange="updateLogo(event)">
+      <input type="file" id="logo-input" accept="image/*" style="display:none">
     </div>
     <button class="admin-btn" id="admin-toggle-btn" onclick="toggleEditMode()">Modo Editar</button>
   </header>
 
   <div class="container">
     
-    <!-- Carpeta Novedades -->
     <div class="featured-btn" onclick="triggerFile('file-novedades')">
       <i class="fa-solid fa-folder-open"></i>
       <span class="editable" id="title-novedades">NOVEDADES</span>
@@ -80,10 +68,8 @@
     <h1 class="banner-title editable" id="main-title">PERSONALIZA</h1>
     <h2 class="banner-subtitle editable" id="sub-title">TU ESTILO</h2>
 
-    <!-- Grid con las 8 Carpetas de Productos -->
     <div class="folder-grid">
       
-      <!-- 1. Playeras -->
       <div class="folder-card">
         <div class="card-icon-box" onclick="triggerFile('file-f1')">
           <i class="fa-solid fa-shirt" id="icon-f1"></i>
@@ -97,7 +83,6 @@
         <div class="badge-add">+</div>
       </div>
 
-      <!-- 2. Sudaderas -->
       <div class="folder-card">
         <div class="card-icon-box" onclick="triggerFile('file-f2')">
           <i class="fa-solid fa-user-ninja" id="icon-f2"></i>
@@ -111,7 +96,6 @@
         <div class="badge-add">+</div>
       </div>
 
-      <!-- 3. Tazas -->
       <div class="folder-card">
         <div class="card-icon-box" onclick="triggerFile('file-f3')">
           <i class="fa-solid fa-mug-hot" id="icon-f3"></i>
@@ -125,7 +109,6 @@
         <div class="badge-add">+</div>
       </div>
 
-      <!-- 4. Termos -->
       <div class="folder-card">
         <div class="card-icon-box" onclick="triggerFile('file-f4')">
           <i class="fa-solid fa-bottle-water" id="icon-f4"></i>
@@ -139,7 +122,6 @@
         <div class="badge-add">+</div>
       </div>
 
-      <!-- 5. Tarros -->
       <div class="folder-card">
         <div class="card-icon-box" onclick="triggerFile('file-f5')">
           <i class="fa-solid fa-beer-mug-empty" id="icon-f5"></i>
@@ -153,7 +135,6 @@
         <div class="badge-add">+</div>
       </div>
 
-      <!-- 6. Lanyards -->
       <div class="folder-card">
         <div class="card-icon-box" onclick="triggerFile('file-f6')">
           <i class="fa-solid fa-id-badge" id="icon-f6"></i>
@@ -167,7 +148,6 @@
         <div class="badge-add">+</div>
       </div>
 
-      <!-- 7. Cojines -->
       <div class="folder-card">
         <div class="card-icon-box" onclick="triggerFile('file-f7')">
           <i class="fa-solid fa-mattress-pillow" id="icon-f7"></i>
@@ -181,7 +161,6 @@
         <div class="badge-add">+</div>
       </div>
 
-      <!-- 8. Y Más / Varios -->
       <div class="folder-card">
         <div class="card-icon-box" onclick="triggerFile('file-f8')">
           <i class="fa-solid fa-layer-group" id="icon-f8"></i>
@@ -197,7 +176,6 @@
 
     </div>
 
-    <!-- Carpeta Trabajos Terminados al Final -->
     <div class="finished-section">
       <div class="featured-btn" onclick="triggerFile('file-trabajos')">
         <i class="fa-solid fa-folder"></i>
@@ -214,7 +192,6 @@
 
   </div>
 
-  <!-- Barra Fija Inferior con Redes y Contacto -->
   <footer class="footer-bar">
     <a href="#" class="footer-btn"><i class="fa-solid fa-location-dot"></i><span>Ubicación</span></a>
     <a href="#" class="footer-btn"><i class="fa-solid fa-phone"></i><span>Teléfono</span></a>
@@ -225,13 +202,11 @@
   </footer>
 
   <script>
-    // 1. Mostrar Botón Editar únicamente con "?admin=true"
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('admin') === 'true') {
       document.getElementById('admin-toggle-btn').style.display = 'inline-block';
     }
 
-    // 2. Control de Modo Edición
     let isEditing = false;
     function toggleEditMode() {
       isEditing = !isEditing;
@@ -242,19 +217,20 @@
         document.body.classList.add('editing-active');
         btn.innerText = 'Guardar Cambios';
         btn.style.background = '#008000';
-        editables.forEach(el => el.contentEditable = "true");
+        editables.forEach(function(el) { el.contentEditable = "true"; });
       } else {
         document.body.classList.remove('editing-active');
         btn.innerText = 'Modo Editar';
         btn.style.background = '#e60000';
-        editables.forEach(el => el.contentEditable = "false");
+        editables.forEach(function(el) { el.contentEditable = "false"; });
         savePageData();
       }
     }
 
-    // 3. Subir Imágenes
     function triggerFile(id) {
-      if (isEditing) document.getElementById(id).click();
+      if (isEditing) {
+        document.getElementById(id).click();
+      }
     }
 
     function updateCardImg(fId, event) {
@@ -262,8 +238,8 @@
       if (file) {
         const reader = new FileReader();
         reader.onload = function(e) {
-          document.getElementById(icon-${fId}).style.display = 'none';
-          const img = document.getElementById(img-${fId});
+          document.getElementById('icon-' + fId).style.display = 'none';
+          const img = document.getElementById('img-' + fId);
           img.src = e.target.result;
           img.style.display = 'block';
         };
@@ -271,13 +247,11 @@
       }
     }
 
-    // 4. Guardado en Navegador
     function savePageData() {
       localStorage.setItem('mstize_full_site', document.querySelector('.container').innerHTML);
       alert('¡Todos los cambios visuales han sido guardados!');
     }
 
-    // 5. Restaurar Datos Guardados
     window.onload = function() {
       const saved = localStorage.getItem('mstize_full_site');
       if (saved) {
@@ -286,4 +260,4 @@
     };
   </script>
 </body>
-</html> 
+</html>
