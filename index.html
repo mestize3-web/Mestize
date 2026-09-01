@@ -43,6 +43,7 @@
 
     /* Estilos Modo Edición */
     .editing { outline: 2px dashed #00ff00; }
+    .admin-btn{ display: none; } 
   </style>
 </head>
 <body>
@@ -180,5 +181,14 @@
       }
     };
   </script>
+  <script>
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('admin') === 'true') {
+    const editBtn = document.querySelector('.admin-btn');
+    if (editBtn) {
+      editBtn.style.display = 'inline-block';
+    }
+  }
+</script>
 </body>
 </html>
