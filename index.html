@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MSTZ by MESTIZE - Personaliza Tu Estilo</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial Black', sans-serif; }
+    body { background-color: #0d0d0d; color: #fff; text-align: center; padding-bottom: 90px; }
+    
+    /* Header & Admin Controls */
+    header { background: #000; padding: 15px; border-bottom: 3px solid #e60000; position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; }
+    .logo-text { font-size: 24px; color: #fff; }
+    .logo-text span { color: #e60000; }
+    .admin-btn { background: #e60000; color: #fff; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+    
+    /* Banner Novedades */
+    .banner { margin: 20px auto; max-width: 500px; padding: 10px; }
+    .banner h1 { font-size: 32px; letter-spacing: 1px; }
+    .banner h2 { font-size: 26px; color: #e60000; font-style: italic; }
+
+    /* Grid de Categorías */
+    .container { max-width: 600px; margin: auto; padding: 10px; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    .card { background: #1a1a1a; border: 2px solid #333; border-radius: 12px; padding: 15px; text-align: left; position: relative; transition: 0.3s; }
+    .card:hover { border-color: #e60000; }
+    .card i.main-icon { font-size: 35px; color: #e60000; margin-bottom: 10px; }
+    .card h3 { font-size: 18px; color: #fff; margin-bottom: 5px; }
+    .card p { font-size: 12px; color: #aaa; font-family: sans-serif; }
+    
+    /* Secciones Inferiores */
+    .section-title { background: #e60000; color: #fff; padding: 10px; margin: 30px 0 15px; border-radius: 5px; font-size: 20px; text-transform: uppercase; }
+    .horizontal-scroll { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; }
+    .item-box { min-width: 140px; background: #1a1a1a; padding: 10px; border-radius: 8px; border: 1px solid #333; }
+    .item-box img { width: 100%; border-radius: 5px; height: 100px; object-fit: cover; }
+    .badge { background: #e60000; font-size: 10px; padding: 3px 6px; border-radius: 3px; display: inline-block; margin-bottom: 5px; }
+
+    /* Barra de Contacto / Footer Fijo */
+    .footer-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: #000; border-top: 2px solid #e60000; display: flex; justify-content: space-around; padding: 10px 0; z-index: 1000; }
+    .footer-bar a { color: #fff; text-decoration: none; font-size: 11px; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; }
+    .footer-bar a i { font-size: 20px; margin-bottom: 3px; color: #e60000; }
+
+    /* Estilos Modo Edición */
+    .editing { outline: 2px dashed #00ff00; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo-text">MS<span>TZ</span> <small style="font-size: 12px; color:#fff;">by MESTIZE</small></div>
+    <button class="admin-btn" onclick="toggleEditMode()">✏️ Modo Editar</button>
+  </header>
+
+  <div class="container">
+    <div class="banner">
+      <h1 class="editable">PERSONALIZA</h1>
+      <h2 class="editable">TU ESTILO</h2>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <i class="fa-solid fa-shirt main-icon"></i>
+        <h3 class="editable">Playeras</h3>
+        <p class="editable">Diseños personalizados en serigrafía y vinil.</p>
+      </div>
+      <div class="card">
+        <i class="fa-solid fa-user-ninja main-icon"></i>
+        <h3 class="editable">Sudaderas</h3>
+        <p class="editable">Capucha y cuello redondo personalizadas.</p>
+      </div>
+      <div class="card">
+        <i class="fa-solid fa-mug-hot main-icon"></i>
+        <h3 class="editable">Tazas</h3>
+        <p class="editable">Tazas mágicas, cerámicas y térmicas.</p>
+      </div>
+      <div class="card">
+        <i class="fa-solid fa-bottle-water main-icon"></i>
+        <h3 class="editable">Termos</h3>
+        <p class="editable">Termos metálicos de 500ml y 1L.</p>
+      </div>
+      <div class="card">
+        <i class="fa-solid fa-beer-mug-empty main-icon"></i>
+        <h3 class="editable">Tarros</h3>
+        <p class="editable">Tarros cerveceros pavonados y transparentes.</p>
+      </div>
+      <div class="card">
+        <i class="fa-solid fa-id-badge main-icon"></i>
+        <h3 class="editable">Lanyards</h3>
+        <p class="editable">Portagafetes impresos en alta calidad.</p>
+      </div>
+      <div class="card">
+        <i class="fa-solid fa-couch main-icon"></i>
+        <h3 class="editable">Cojines</h3>
+        <p class="editable">Cojines sublimados de diferentes tamaños.</p>
+      </div>
+      <div class="card">
+        <i class="fa-solid fa-layer-group main-icon"></i>
+        <h3 class="editable">Y MÁS</h3>
+        <p class="editable">Explora todo nuestro catálogo variado.</p>
+      </div>
+    </div>
+
+    <div class="section-title editable">📁 VARIOS</div>
+    <div class="horizontal-scroll">
+      <div class="item-box">
+        <img src="https://via.placeholder.com/150/111111/FFFFFF?text=Llaveros" alt="Llaveros">
+        <p class="editable" style="font-size:12px; margin-top:5px;">Llaveros</p>
+      </div>
+      <div class="item-box">
+        <img src="https://via.placeholder.com/150/111111/FFFFFF?text=Gorras" alt="Gorras">
+        <p class="editable" style="font-size:12px; margin-top:5px;">Gorras</p>
+      </div>
+      <div class="item-box">
+        <img src="https://via.placeholder.com/150/111111/FFFFFF?text=Parches" alt="Parches">
+        <p class="editable" style="font-size:12px; margin-top:5px;">Parches</p>
+      </div>
+    </div>
+
+    <div class="section-title editable">📁 TRABAJOS TERMINADOS</div>
+    <div class="horizontal-scroll">
+      <div class="item-box">
+        <span class="badge">Entregado</span>
+        <img src="https://via.placeholder.com/150/e60000/FFFFFF?text=Playera+MSTZ" alt="Trabajo 1">
+      </div>
+      <div class="item-box">
+        <span class="badge">Entregado</span>
+        <img src="https://via.placeholder.com/150/e60000/FFFFFF?text=Sudadera+MZ" alt="Trabajo 2">
+      </div>
+      <div class="item-box">
+        <span class="badge">Entregado</span>
+        <img src="https://via.placeholder.com/150/e60000/FFFFFF?text=Taza+Custom" alt="Trabajo 3">
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bar">
+    <a id="link-map" href="https://maps.google.com" target="_blank"><i class="fa-solid fa-location-dot"></i>Ubicación</a>
+    <a id="link-phone" href="tel:1234567890"><i class="fa-solid fa-phone"></i>Teléfono</a>
+    <a id="link-fb" href="https://facebook.com" target="_blank"><i class="fa-brands fa-facebook"></i>Facebook</a>
+    <a id="link-tt" href="https://tiktok.com" target="_blank"><i class="fa-brands fa-tiktok"></i>TikTok</a>
+    <a id="link-ig" href="https://instagram.com" target="_blank"><i class="fa-brands fa-instagram"></i>Instagram</a>
+    <a id="link-wa" href="https://wa.me/1234567890" target="_blank"><i class="fa-brands fa-whatsapp"></i>WhatsApp</a>
+  </div>
+
+  <script>
+    let isEditing = false;
+
+    function toggleEditMode() {
+      isEditing = !isEditing;
+      const editables = document.querySelectorAll('.editable');
+      const btn = document.querySelector('.admin-btn');
+
+      if (isEditing) {
+        btn.innerText = "💾 Guardar Cambios";
+        btn.style.background = "#00aa00";
+        editables.forEach(el => {
+          el.contentEditable = "true";
+          el.classList.add('editing');
+        });
+        alert("Modo edición activado. Haz clic en cualquier texto para cambiarlo.");
+      } else {
+        btn.innerText = "✏️ Modo Editar";
+        btn.style.background = "#e60000";
+        editables.forEach(el => {
+          el.contentEditable = "false";
+          el.classList.remove('editing');
+        });
+        // Guardar automáticamente los cambios en el navegador
+        localStorage.setItem('pageHTML', document.querySelector('.container').innerHTML);
+        alert("¡Cambios guardados exitosamente!");
+      }
+    }
+
+    // Cargar cambios guardados si existen
+    window.onload = () => {
+      const savedHTML = localStorage.getItem('pageHTML');
+      if (savedHTML) {
+        document.querySelector('.container').innerHTML = savedHTML;
+      }
+    };
+  </script>
+</body>
+</html>
