@@ -52,7 +52,8 @@
   <header>
     <div class="logo-container" onclick="triggerFile('logo-input')">
       <div class="logo-text" id="site-logo-text">MS<span>TZ</span> <small style="font-size: 12px; color: #fff;">by MESTIZE</small></div>
-      <input type="file" id="logo-input" accept="image/*" style="display:none">
+     <img id="site-logo-img" style="display:none; max-height: 40px; width: auto; object-fit: contain;">
+      <input type="file" id="logo-input" accept="image/*" style="display:none" onchange="updateLogoImg(event)">
     </div>
     <button class="admin-btn" id="admin-toggle-btn" onclick="toggleEditMode()">Modo Editar</button>
   </header>
@@ -257,7 +258,19 @@
       if (saved) {
         document.querySelector('.container').innerHTML = saved;
       }
-    };
+    }; 
+    function updateLogoImg(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById('site-logo-text').style.display = 'none';
+          const img = document.getElementById('site-logo-img');
+          img.src = e.target.result;
+          img.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+      }
   </script>
 </body>
 </html>
