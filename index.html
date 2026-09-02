@@ -248,29 +248,34 @@
       }
     }
 
-    function savePageData() {
-      localStorage.setItem('mstize_full_site', document.querySelector('.container').innerHTML);
-      alert('¡Todos los cambios visuales han sido guardados!');
-    }
+  function savePageData() {
+  alert('¡Todos los cambios visuales han sido guardados!');
+}
 
-    window.onload = function() {
-      const saved = localStorage.getItem('mstize_full_site');
-      if (saved) {
-        document.querySelector('.container').innerHTML = saved;
-      }
-    }; 
-    function updateLogoImg(event) {
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          document.getElementById('site-logo-text').style.display = 'none';
-          const img = document.getElementById('site-logo-img');
-          img.src = e.target.result;
-          img.style.display = 'block';
-        };
-        reader.readAsDataURL(file);
-      }
+function updateLogoImg(event) {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const imgData = e.target.result;
+      document.getElementById('site-logo-text').style.display = 'none';
+      const img = document.getElementById('site-logo-img');
+      img.src = imgData;
+      img.style.display = 'block';
+      localStorage.setItem('mstize_logo', imgData);
+    };
+    reader.readAsDataURL(file);
+    }
+}
+window.onload = function() {
+  const savedLogo = localStorage.getItem('mstize_logo');
+  if (savedLogo) {
+    document.getElementById('site-logo-text').style.display = 'none';
+    const img = document.getElementById('site-logo-img');
+    img.src = savedLogo;
+    img.style.display = 'block';
+  }
+};
   </script>
 </body>
 </html>
