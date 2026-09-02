@@ -252,30 +252,101 @@
   alert('¡Todos los cambios visuales han sido guardados!');
 }
 
-function updateLogoImg(event) {
-  const file = event.target.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      const imgData = e.target.result;
+Estructura de datos para carpetas e imágenes
+  let catalogData = JSON.parse(localStorage.getItem('mstize_catalog')) || {
+    novedades: [],
+    trabajos_terminados: [],
+    playeras: [],
+    sudaderas: [],
+    tazas: [],
+    termos: [],
+    tarros: [],
+    lanyards: [],
+    cojines: []
+  };
+
+  let currentCategory = '';
+
+  // 2. Cargar logo y botón Admin al iniciar la página
+  window.onload = function() {
+    const savedLogo = localStorage.getItem('mstize_logo');
+    if (savedLogo) {
       document.getElementById('site-logo-text').style.display = 'none';
       const img = document.getElementById('site-logo-img');
-      img.src = imgData;
+      img.src = savedLogo;
       img.style.display = 'block';
-      localStorage.setItem('mstize_logo', imgData);
-    };
-    reader.readAsDataURL(file);
     }
-}
-window.onload = function() {
-  const savedLogo = localStorage.getItem('mstize_logo');
-  if (savedLogo) {
-    document.getElementById('site-logo-text').style.display = 'none';
-    const img = document.getElementById('site-logo-img');
-    img.src = savedLogo;
-    img.style.display = 'block';
+
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('admin') === 'true') {
+      const adminBtn = document.createElement('button');
+      adminBtn.innerText = 'Modo Editar';
+      adminBtn.style.cssText = 'position:fixed;top:10px;right:10px;z-index:9999;padding:10px 15px;background:red;color:white;border:none;border-radius:5px;cursor:pointer;font-weight:bold;';
+      adminBtn.onclick = function() {
+        document.body.classList.toggle('editing-mode');
+        this.style.background = document.body.classList.contains('editing-mode') ? 'green' : 'red';
+      };
+      document.body.appendChild(adminBtn);
+    }
+  };
+
+  // 3. Función para cambiar y guardar el Logo
+  function updateLogoImg(event) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const imgData = e.target.result;
+        document.getElementById('site-logo-text').style.display = 'none';
+        const img = document.getElementById('site-logo-img');
+        img.src = imgData;
+        img.style.display = 'block';
+        localStorage.setItem('mstize_logo', imgData);
+      };
+      reader.readAsDataURL(file);
+    }
   }
-};
+
+  // 4. Abrir categoría (Novedades, Playeras, Trabajos Terminados, etc.)
+  function openCategory(categoryName) {
+    currentCategory = categoryName;
+    alert('Abriendo sección: ' + categoryName.toUpperCase());
+  }
+
+  // 5. Crear subcarpeta dentro de la categoría actual (ej. "15 de Septiembre")
+  function createSubfolder() {
+    if (!currentCategory) {
+      alert('Primero selecciona una categoría (Playeras, Novedades, etc.)');
+      return;
+    }
+    const folderName = prompt('Nombre de la nueva subcarpeta (ej. 15 de Septiembre):');
+    if (folderName) {
+      if (!catalogData[currentCategory]) {
+        catalogData[currentCategory] = [];
+      }
+      catalogData[currentCategory].push({
+        name: folderName,
+        images: []
+      });
+      localStorage.setItem('mstize_catalog', JSON.stringify(catalogData));
+      alert('Carpeta "' + folderName + '" creada exitosamente en ' + currentCategory.toUpperCase());
+    }
+  }
+
+  // 6. Subir imágenes a una subcarpeta específica
+  function uploadImagesToFolder(event, folderIndex) {
+    const files = event.target.files;
+    if (files.length > 0 && currentCategory && catalogData[currentCategory][folderIndex]) {
+      Array.from(files).forEach(file => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          catalogData[currentCategory][folderIndex].images.push(e.target.result);
+          localStorage.setItem('mstize_catalog', JSON.stringify(catalogData));
+        };
+        reader.readAsDataURL(file);
+      });
+      alert('Imágenes agregadas correctamente');
+    }
   </script>
 </body>
 </html>
