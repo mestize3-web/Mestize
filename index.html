@@ -203,56 +203,7 @@
   </footer>
 
   <script>
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('admin') === 'true') {
-      document.getElementById('admin-toggle-btn').style.display = 'inline-block';
-    }
-
-    let isEditing = false;
-    function toggleEditMode() {
-      isEditing = !isEditing;
-      const btn = document.getElementById('admin-toggle-btn');
-      const editables = document.querySelectorAll('.editable');
-
-      if (isEditing) {
-        document.body.classList.add('editing-active');
-        btn.innerText = 'Guardar Cambios';
-        btn.style.background = '#008000';
-        editables.forEach(function(el) { el.contentEditable = "true"; });
-      } else {
-        document.body.classList.remove('editing-active');
-        btn.innerText = 'Modo Editar';
-        btn.style.background = '#e60000';
-        editables.forEach(function(el) { el.contentEditable = "false"; });
-        savePageData();
-      }
-    }
-
-    function triggerFile(id) {
-      if (isEditing) {
-        document.getElementById(id).click();
-      }
-    }
-
-    function updateCardImg(fId, event) {
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          document.getElementById('icon-' + fId).style.display = 'none';
-          const img = document.getElementById('img-' + fId);
-          img.src = e.target.result;
-          img.style.display = 'block';
-        };
-        reader.readAsDataURL(file);
-      }
-    }
-
-  function savePageData() {
-  alert('¡Todos los cambios visuales han sido guardados!');
-}
-
-Estructura de datos para carpetas e imágenes
+  // 1. Estructura de datos para carpetas e imágenes
   let catalogData = JSON.parse(localStorage.getItem('mstize_catalog')) || {
     novedades: [],
     trabajos_terminados: [],
@@ -267,8 +218,9 @@ Estructura de datos para carpetas e imágenes
 
   let currentCategory = '';
 
-  // 2. Cargar logo y botón Admin al iniciar la página
+  // 2. Cargar logo y botón Admin de forma segura al cargar el DOM
   document.addEventListener('DOMContentLoaded', function() {
+    // Cargar Logo si existe
     const savedLogo = localStorage.getItem('mstize_logo');
     if (savedLogo) {
       const logoText = document.getElementById('site-logo-text');
@@ -280,16 +232,21 @@ Estructura de datos para carpetas e imágenes
       }
     }
 
+    // Mostrar Botón Admin si la URL contiene admin=true
     const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('admin') === 'true') {
+    const hasAdmin = urlParams.get('admin') === 'true' || window.location.href.includes('admin=true');
+
+    if (hasAdmin) {
       const adminBtn = document.createElement('button');
       adminBtn.id = 'admin-edit-btn';
       adminBtn.innerText = 'Modo Editar';
-      adminBtn.style.cssText = 'position:fixed;top:10px;right:10px;z-index:99999;padding:12px 20px;background:#e60000;color:white;border:2px solid white;border-radius:6px;cursor:pointer;font-weight:bold;box-shadow:0 4px 8px rgba(0,0,0,0.3);';
+      adminBtn.style.cssText = 'position:fixed;top:15px;right:15px;z-index:999999;padding:12px 20px;background:#e60000;color:white;border:2px solid #ffffff;border-radius:6px;cursor:pointer;font-weight:bold;box-shadow:0 4px 10px rgba(0,0,0,0.5);font-family:sans-serif;';
+      
       adminBtn.onclick = function() {
         document.body.classList.toggle('editing-mode');
         this.style.background = document.body.classList.contains('editing-mode') ? '#009900' : '#e60000';
       };
+      
       document.body.appendChild(adminBtn);
     }
   });
@@ -301,23 +258,26 @@ Estructura de datos para carpetas e imágenes
       const reader = new FileReader();
       reader.onload = function(e) {
         const imgData = e.target.result;
-        document.getElementById('site-logo-text').style.display = 'none';
+        const logoText = document.getElementById('site-logo-text');
         const img = document.getElementById('site-logo-img');
-        img.src = imgData;
-        img.style.display = 'block';
+        if (logoText) logoText.style.display = 'none';
+        if (img) {
+          img.src = imgData;
+          img.style.display = 'block';
+        }
         localStorage.setItem('mstize_logo', imgData);
       };
       reader.readAsDataURL(file);
     }
   }
 
-  // 4. Abrir categoría (Novedades, Playeras, Trabajos Terminados, etc.)
+  // 4. Abrir categoría
   function openCategory(categoryName) {
     currentCategory = categoryName;
     alert('Abriendo sección: ' + categoryName.toUpperCase());
   }
 
-  // 5. Crear subcarpeta dentro de la categoría actual (ej. "15 de Septiembre")
+  // 5. Crear subcarpeta
   function createSubfolder() {
     if (!currentCategory) {
       alert('Primero selecciona una categoría (Playeras, Novedades, etc.)');
@@ -337,7 +297,7 @@ Estructura de datos para carpetas e imágenes
     }
   }
 
-  // 6. Subir imágenes a una subcarpeta específica
+  // 6. Subir imágenes
   function uploadImagesToFolder(event, folderIndex) {
     const files = event.target.files;
     if (files.length > 0 && currentCategory && catalogData[currentCategory][folderIndex]) {
@@ -351,6 +311,7 @@ Estructura de datos para carpetas e imágenes
       });
       alert('Imágenes agregadas correctamente');
     }
-  </script>
+  }
+</script>
 </body>
 </html>
