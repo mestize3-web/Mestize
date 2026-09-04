@@ -202,7 +202,7 @@
     <a href="#" class="footer-btn"><i class="fa-brands fa-whatsapp"></i><span>WhatsApp</span></a>
   </footer>
 
-  <script>
+ <script>
   // 1. Estructura de datos para carpetas e imágenes
   let catalogData = JSON.parse(localStorage.getItem('mstize_catalog')) || {
     novedades: [],
@@ -218,21 +218,15 @@
 
   let currentCategory = '';
 
-  // 2. Cargar logo y botón Admin de forma segura al cargar el DOM
+  // 2. Cargar datos e inicializar Modo Editar
   document.addEventListener('DOMContentLoaded', function() {
-    // Cargar Logo si existe
+    // Restaurar Logo guardado si existe
     const savedLogo = localStorage.getItem('mstize_logo');
     if (savedLogo) {
-      const logoText = document.getElementById('site-logo-text');
-      const img = document.getElementById('site-logo-img');
-      if (logoText) logoText.style.display = 'none';
-      if (img) {
-        img.src = savedLogo;
-        img.style.display = 'block';
-      }
+      applyLogoToHeader(savedLogo);
     }
 
-    // Mostrar Botón Admin si la URL contiene admin=true
+    // Activar Botón Modo Editar por URL
     const urlParams = new URLSearchParams(window.location.search);
     const hasAdmin = urlParams.get('admin') === 'true' || window.location.href.includes('admin=true');
 
@@ -240,35 +234,66 @@
       const adminBtn = document.createElement('button');
       adminBtn.id = 'admin-edit-btn';
       adminBtn.innerText = 'Modo Editar';
-      adminBtn.style.cssText = 'position:fixed;top:15px;right:15px;z-index:999999;padding:12px 20px;background:#e60000;color:white;border:2px solid #ffffff;border-radius:6px;cursor:pointer;font-weight:bold;box-shadow:0 4px 10px rgba(0,0,0,0.5);font-family:sans-serif;';
+      adminBtn.style.cssText = 'position:fixed;top:15px;right:15px;z-index:999999;padding:12px 20px;background:#009900;color:white;border:2px solid #ffffff;border-radius:6px;cursor:pointer;font-weight:bold;box-shadow:0 4px 10px rgba(0,0,0,0.5);font-family:sans-serif;';
       
+      let isEditing = false;
       adminBtn.onclick = function() {
-        document.body.classList.toggle('editing-mode');
-        this.style.background = document.body.classList.contains('editing-mode') ? '#009900' : '#e60000';
+        isEditing = !isEditing;
+        this.innerText = isEditing ? 'Guardar Cambios' : 'Modo Editar';
+        this.style.background = isEditing ? '#e60000' : '#009900';
+
+        // Hacer textos editables
+        const editables = document.querySelectorAll('h1, h2, h3, p, span');
+        editables.forEach(el => {
+          el.contentEditable = isEditing ? "true" : "false";
+          el.style.border = isEditing ? "1px dashed #ffffff" : "none";
+        });
+
+        // Mostrar u ocultar selector de Logo
+        let logoInput = document.getElementById('admin-logo-input');
+        if (isEditing && !logoInput) {
+          logoInput = document.createElement('input');
+          logoInput.type = 'file';
+          logoInput.id = 'admin-logo-input';
+          logoInput.accept = 'image/*';
+          logoInput.style.cssText = 'position:fixed;top:60px;right:15px;z-index:999999;background:white;padding:5px;border-radius:4px;';
+          logoInput.onchange = updateLogoImg;
+          document.body.appendChild(logoInput);
+        } else if (!isEditing && logoInput) {
+          logoInput.remove();
+        }
       };
       
       document.body.appendChild(adminBtn);
     }
   });
 
-  // 3. Función para cambiar y guardar el Logo
+  // 3. Función para cambiar y guardar el Logo en la cabecera
   function updateLogoImg(event) {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = function(e) {
         const imgData = e.target.result;
-        const logoText = document.getElementById('site-logo-text');
-        const img = document.getElementById('site-logo-img');
-        if (logoText) logoText.style.display = 'none';
-        if (img) {
-          img.src = imgData;
-          img.style.display = 'block';
-        }
+        applyLogoToHeader(imgData);
         localStorage.setItem('mstize_logo', imgData);
       };
       reader.readAsDataURL(file);
     }
+  }
+
+  function applyLogoToHeader(imgData) {
+    const header = document.querySelector('header') || document.body;
+    let logoImg = document.getElementById('site-logo-img');
+    if (!logoImg) {
+      logoImg = document.createElement('img');
+      logoImg.id = 'site-logo-img';
+      logoImg.style.maxHeight = '50px';
+      logoImg.style.marginRight = '10px';
+      header.insertBefore(logoImg, header.firstChild);
+    }
+    logoImg.src = imgData;
+    logoImg.style.display = 'inline-block';
   }
 
   // 4. Abrir categoría
@@ -312,6 +337,6 @@
       alert('Imágenes agregadas correctamente');
     }
   }
-</script> 
+</script>
 </body>
 </html>
