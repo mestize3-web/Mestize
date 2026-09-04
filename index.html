@@ -3,340 +3,208 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MSTZ by MESTIZE - Personaliza Tu Estilo</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <title>MSTZ by MESTIZE</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Impact', 'Arial Black', sans-serif; }
-    body { background-color: #0d0d0d; color: #fff; text-align: center; padding-bottom: 110px; }
-
-    header { background: #000; padding: 15px; border-bottom: 3px solid #e60000; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
-    .logo-container { display: flex; align-items: center; gap: 10px; cursor: pointer; position: relative; }
-    .logo-text { font-size: 26px; color: #fff; letter-spacing: 1px; }
+    body { font-family: Arial, sans-serif; background: #121212; color: #fff; margin: 0; padding: 20px; }
+    header { display: flex; align-items: center; justify-content: space-between; padding: 10px 20px; background: #1a1a1a; border-bottom: 2px solid #e60000; }
+    .logo-container { display: flex; align-items: center; gap: 10px; }
+    .logo-text { font-size: 24px; font-weight: bold; color: #fff; }
     .logo-text span { color: #e60000; }
     
-    .admin-btn { background: #e60000; color: #fff; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; font-family: sans-serif; display: none; }
+    .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
+    .card { background: #222; border: 1px solid #333; border-radius: 8px; padding: 15px; text-align: center; cursor: pointer; transition: 0.2s; }
+    .card:hover { border-color: #e60000; }
+    .card h3 { margin: 10px 0 5px; color: #fff; text-transform: uppercase; }
 
-    .container { max-width: 900px; margin: 0 auto; padding: 15px; }
-    .banner-title { font-size: 32px; color: #fff; letter-spacing: 2px; margin-top: 10px; }
-    .banner-subtitle { font-size: 28px; color: #e60000; font-style: italic; margin-bottom: 20px; }
-
-    .featured-btn { background: #fff; color: #000; border: 3px solid #e60000; border-radius: 12px; padding: 15px; font-size: 24px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 15px; margin: 20px 0; cursor: pointer; position: relative; }
-    .featured-btn i { color: #000; font-size: 30px; }
-
-    .folder-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 15px; margin: 20px 0; }
+    /* Estilos Modo Editar */
+    .editing [contenteditable="true"] { border: 1px dashed #ffff00 !important; outline: none; }
     
-    .folder-card { background: #fff; color: #000; border-radius: 12px; border: 2px solid #e60000; padding: 12px; display: flex; align-items: center; gap: 12px; text-align: left; position: relative; box-shadow: 0 4px 10px rgba(230,0,0,0.3); }
-    .card-icon-box { width: 65px; height: 65px; min-width: 65px; border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden; background: #f9f9f9; cursor: pointer; position: relative; }
-    .card-icon-box i { font-size: 38px; color: #000; }
-    .card-icon-box img { width: 100%; height: 100%; object-fit: cover; }
-    .card-info { flex-grow: 1; }
-    .card-title { font-size: 18px; text-transform: uppercase; color: #000; }
-    .card-desc { font-size: 11px; font-family: sans-serif; color: #555; }
-    .badge-add { position: absolute; bottom: 8px; right: 8px; background: #e60000; color: #fff; width: 20px; height: 20px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; }
-
-    .finished-section { margin-top: 30px; }
-    .scroll-horizontal { display: flex; gap: 12px; overflow-x: auto; padding: 10px 0; }
-    .finished-item { min-width: 130px; height: 130px; background: #1a1a1a; border-radius: 8px; border: 1px solid #333; overflow: hidden; position: relative; display: flex; align-items: center; justify-content: center; }
-    .finished-item img { width: 100%; height: 100%; object-fit: cover; }
-    .tag-delivered { position: absolute; top: 5px; right: 5px; background: #e60000; color: #fff; font-size: 9px; font-family: sans-serif; padding: 2px 5px; border-radius: 3px; font-weight: bold; }
-
-    .footer-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: #000; border-top: 2px solid #e60000; display: flex; justify-content: space-around; padding: 8px 0; z-index: 1000; }
-    .footer-btn { color: #fff; text-decoration: none; font-size: 10px; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; gap: 3px; }
-    .footer-btn i { font-size: 20px; color: #e60000; }
-
-    body.editing-active .editable { outline: 1px dashed #e60000; }
+    /* Panel de Subcarpetas e Imágenes */
+    #catalog-view { margin-top: 30px; background: #1e1e1e; padding: 20px; border-radius: 8px; border: 1px solid #444; }
+    .folder-block { background: #2a2a2a; padding: 15px; border-radius: 6px; margin-bottom: 15px; }
+    .gallery { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+    .gallery img { width: 100px; height: 100px; object-fit: cover; border-radius: 4px; border: 1px solid #555; }
+    
+    .btn { background: #e60000; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+    .btn-success { background: #009900; }
   </style>
 </head>
 <body>
 
   <header>
-    <div class="logo-container" onclick="triggerFile('logo-input')">
-      <div class="logo-text" id="site-logo-text">MS<span>TZ</span> <small style="font-size: 12px; color: #fff;">by MESTIZE</small></div>
-     <img id="site-logo-img" style="display:none; max-height: 40px; width: auto; object-fit: contain;">
-      <input type="file" id="logo-input" accept="image/*" style="display:none" onchange="updateLogoImg(event)">
+    <div class="logo-container" id="logo-box">
+      <div class="logo-text" id="site-logo-text">MSTZ <span>by MESTIZE</span></div>
     </div>
-    <button class="admin-btn" id="admin-toggle-btn" onclick="toggleEditMode()">Modo Editar</button>
   </header>
 
-  <div class="container">
+  <main>
+    <h2 style="text-align: center; margin-top: 20px;">CATÁLOGO</h2>
     
-    <div class="featured-btn" onclick="triggerFile('file-novedades')">
-      <i class="fa-solid fa-folder-open"></i>
-      <span class="editable" id="title-novedades">NOVEDADES</span>
-      <input type="file" id="file-novedades" accept="image/*" style="display:none">
+    <div class="grid-container">
+      <div class="card" onclick="selectCategory('novedades')"><h3>Novedades</h3></div>
+      <div class="card" onclick="selectCategory('playeras')"><h3>Playeras</h3></div>
+      <div class="card" onclick="selectCategory('sudaderas')"><h3>Sudaderas</h3></div>
+      <div class="card" onclick="selectCategory('tazas')"><h3>Tazas</h3></div>
+      <div class="card" onclick="selectCategory('termos')"><h3>Termos</h3></div>
+      <div class="card" onclick="selectCategory('tarros')"><h3>Tarros</h3></div>
+      <div class="card" onclick="selectCategory('lanyards')"><h3>Lanyards</h3></div>
+      <div class="card" onclick="selectCategory('cojines')"><h3>Cojines</h3></div>
     </div>
 
-    <h1 class="banner-title editable" id="main-title">PERSONALIZA</h1>
-    <h2 class="banner-subtitle editable" id="sub-title">TU ESTILO</h2>
-
-    <div class="folder-grid">
-      
-      <div class="folder-card">
-        <div class="card-icon-box" onclick="triggerFile('file-f1')">
-          <i class="fa-solid fa-shirt" id="icon-f1"></i>
-          <img id="img-f1" style="display:none;">
-          <input type="file" id="file-f1" accept="image/*" style="display:none" onchange="updateCardImg('f1', event)">
-        </div>
-        <div class="card-info">
-          <div class="card-title editable" id="t-f1">Playeras</div>
-          <div class="card-desc editable" id="d-f1">Diseños personalizados</div>
-        </div>
-        <div class="badge-add">+</div>
+    <!-- Vista de Contenido de la Categoría Seleccionada -->
+    <section id="catalog-view">
+      <div style="display:flex; justify-shadow:space-between; align-items:center; justify-content: space-between;">
+        <h3 id="category-title" style="color: #e60000; margin: 0;">SELECCIONA UNA CATEGORÍA</h3>
+        <button id="add-folder-btn" class="btn" style="display:none;" onclick="createSubfolder()">+ Crear Subcarpeta</button>
       </div>
-
-      <div class="folder-card">
-        <div class="card-icon-box" onclick="triggerFile('file-f2')">
-          <i class="fa-solid fa-user-ninja" id="icon-f2"></i>
-          <img id="img-f2" style="display:none;">
-          <input type="file" id="file-f2" accept="image/*" style="display:none" onchange="updateCardImg('f2', event)">
-        </div>
-        <div class="card-info">
-          <div class="card-title editable" id="t-f2">Sudaderas</div>
-          <div class="card-desc editable" id="d-f2">Capucha y cuello redondo</div>
-        </div>
-        <div class="badge-add">+</div>
+      <hr style="border-color: #333; margin: 15px 0;">
+      <div id="folders-container">
+        <p style="color: #888;">Haz clic en una categoría para ver o agregar subcarpetas e imágenes.</p>
       </div>
+    </section>
+  </main>
 
-      <div class="folder-card">
-        <div class="card-icon-box" onclick="triggerFile('file-f3')">
-          <i class="fa-solid fa-mug-hot" id="icon-f3"></i>
-          <img id="img-f3" style="display:none;">
-          <input type="file" id="file-f3" accept="image/*" style="display:none" onchange="updateCardImg('f3', event)">
-        </div>
-        <div class="card-info">
-          <div class="card-title editable" id="t-f3">Tazas</div>
-          <div class="card-desc editable" id="d-f3">Mágicas, cerámicas y térmicas</div>
-        </div>
-        <div class="badge-add">+</div>
-      </div>
+  <script>
+    let catalogData = JSON.parse(localStorage.getItem('mstize_catalog')) || {
+      novedades: [], playeras: [], sudaderas: [], tazas: [], termos: [], tarros: [], lanyards: [], cojines: []
+    };
+    let currentCategory = '';
+    let isEditingMode = false;
 
-      <div class="folder-card">
-        <div class="card-icon-box" onclick="triggerFile('file-f4')">
-          <i class="fa-solid fa-bottle-water" id="icon-f4"></i>
-          <img id="img-f4" style="display:none;">
-          <input type="file" id="file-f4" accept="image/*" style="display:none" onchange="updateCardImg('f4', event)">
-        </div>
-        <div class="card-info">
-          <div class="card-title editable" id="t-f4">Termos</div>
-          <div class="card-desc editable" id="d-f4">Metálicos de 500ml</div>
-        </div>
-        <div class="badge-add">+</div>
-      </div>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Cargar Logo
+      const savedLogo = localStorage.getItem('mstize_logo');
+      if (savedLogo) displayLogo(savedLogo);
 
-      <div class="folder-card">
-        <div class="card-icon-box" onclick="triggerFile('file-f5')">
-          <i class="fa-solid fa-beer-mug-empty" id="icon-f5"></i>
-          <img id="img-f5" style="display:none;">
-          <input type="file" id="file-f5" accept="image/*" style="display:none" onchange="updateCardImg('f5', event)">
-        </div>
-        <div class="card-info">
-          <div class="card-title editable" id="t-f5">Tarros</div>
-          <div class="card-desc editable" id="d-f5">Cerveceros y satinados</div>
-        </div>
-        <div class="badge-add">+</div>
-      </div>
+      // Detectar Modo Admin
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('admin') === 'true' || window.location.href.includes('admin=true')) {
+        renderAdminControls();
+      }
+    });
 
-      <div class="folder-card">
-        <div class="card-icon-box" onclick="triggerFile('file-f6')">
-          <i class="fa-solid fa-id-badge" id="icon-f6"></i>
-          <img id="img-f6" style="display:none;">
-          <input type="file" id="file-f6" accept="image/*" style="display:none" onchange="updateCardImg('f6', event)">
-        </div>
-        <div class="card-info">
-          <div class="card-title editable" id="t-f6">Lanyards</div>
-          <div class="card-desc editable" id="d-f6">Cintas de cuello personalizadas</div>
-        </div>
-        <div class="badge-add">+</div>
-      </div>
-
-      <div class="folder-card">
-        <div class="card-icon-box" onclick="triggerFile('file-f7')">
-          <i class="fa-solid fa-mattress-pillow" id="icon-f7"></i>
-          <img id="img-f7" style="display:none;">
-          <input type="file" id="file-f7" accept="image/*" style="display:none" onchange="updateCardImg('f7', event)">
-        </div>
-        <div class="card-info">
-          <div class="card-title editable" id="t-f7">Cojines</div>
-          <div class="card-desc editable" id="d-f7">Decorativos y estampados</div>
-        </div>
-        <div class="badge-add">+</div>
-      </div>
-
-      <div class="folder-card">
-        <div class="card-icon-box" onclick="triggerFile('file-f8')">
-          <i class="fa-solid fa-layer-group" id="icon-f8"></i>
-          <img id="img-f8" style="display:none;">
-          <input type="file" id="file-f8" accept="image/*" style="display:none" onchange="updateCardImg('f8', event)">
-        </div>
-        <div class="card-info">
-          <div class="card-title editable" id="t-f8">Y Más</div>
-          <div class="card-desc editable" id="d-f8">Otros artículos varios</div>
-        </div>
-        <div class="badge-add">+</div>
-      </div>
-
-    </div>
-
-    <div class="finished-section">
-      <div class="featured-btn" onclick="triggerFile('file-trabajos')">
-        <i class="fa-solid fa-folder"></i>
-        <span class="editable" id="title-trabajos">TRABAJOS TERMINADOS</span>
-        <input type="file" id="file-trabajos" accept="image/*" style="display:none">
-      </div>
-
-      <div class="scroll-horizontal">
-        <div class="finished-item"><i class="fa-solid fa-image" style="font-size:30px; color:#444;"></i><span class="tag-delivered">Entregado</span></div>
-        <div class="finished-item"><i class="fa-solid fa-image" style="font-size:30px; color:#444;"></i><span class="tag-delivered">Entregado</span></div>
-        <div class="finished-item"><i class="fa-solid fa-image" style="font-size:30px; color:#444;"></i><span class="tag-delivered">Entregado</span></div>
-      </div>
-    </div>
-
-  </div>
-
-  <footer class="footer-bar">
-    <a href="#" class="footer-btn"><i class="fa-solid fa-location-dot"></i><span>Ubicación</span></a>
-    <a href="#" class="footer-btn"><i class="fa-solid fa-phone"></i><span>Teléfono</span></a>
-    <a href="#" class="footer-btn"><i class="fa-brands fa-facebook"></i><span>Facebook</span></a>
-    <a href="#" class="footer-btn"><i class="fa-brands fa-tiktok"></i><span>TikTok</span></a>
-    <a href="#" class="footer-btn"><i class="fa-brands fa-instagram"></i><span>Instagram</span></a>
-    <a href="#" class="footer-btn"><i class="fa-brands fa-whatsapp"></i><span>WhatsApp</span></a>
-  </footer>
-
- <script>
-  // 1. Estructura de datos para carpetas e imágenes
-  let catalogData = JSON.parse(localStorage.getItem('mstize_catalog')) || {
-    novedades: [],
-    trabajos_terminados: [],
-    playeras: [],
-    sudaderas: [],
-    tazas: [],
-    termos: [],
-    tarros: [],
-    lanyards: [],
-    cojines: []
-  };
-
-  let currentCategory = '';
-
-  // 2. Cargar datos e inicializar Modo Editar
-  document.addEventListener('DOMContentLoaded', function() {
-    // Restaurar Logo guardado si existe
-    const savedLogo = localStorage.getItem('mstize_logo');
-    if (savedLogo) {
-      applyLogoToHeader(savedLogo);
-    }
-
-    // Activar Botón Modo Editar por URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const hasAdmin = urlParams.get('admin') === 'true' || window.location.href.includes('admin=true');
-
-    if (hasAdmin) {
+    function renderAdminControls() {
       const adminBtn = document.createElement('button');
-      adminBtn.id = 'admin-edit-btn';
       adminBtn.innerText = 'Modo Editar';
-      adminBtn.style.cssText = 'position:fixed;top:15px;right:15px;z-index:999999;padding:12px 20px;background:#009900;color:white;border:2px solid #ffffff;border-radius:6px;cursor:pointer;font-weight:bold;box-shadow:0 4px 10px rgba(0,0,0,0.5);font-family:sans-serif;';
+      adminBtn.className = 'btn';
+      adminBtn.style.cssText = 'position:fixed; top:15px; right:15px; z-index:99999;';
       
-      let isEditing = false;
       adminBtn.onclick = function() {
-        isEditing = !isEditing;
-        this.innerText = isEditing ? 'Guardar Cambios' : 'Modo Editar';
-        this.style.background = isEditing ? '#e60000' : '#009900';
+        isEditingMode = !isEditingMode;
+        document.body.classList.toggle('editing', isEditingMode);
+        this.innerText = isEditingMode ? 'Guardar Cambios' : 'Modo Editar';
+        this.className = isEditingMode ? 'btn btn-success' : 'btn';
 
         // Hacer textos editables
-        const editables = document.querySelectorAll('h1, h2, h3, p, span');
-        editables.forEach(el => {
-          el.contentEditable = isEditing ? "true" : "false";
-          el.style.border = isEditing ? "1px dashed #ffffff" : "none";
+        document.querySelectorAll('h2, h3, p, span').forEach(el => {
+          el.contentEditable = isEditingMode ? "true" : "false";
         });
 
-        // Mostrar u ocultar selector de Logo
-        let logoInput = document.getElementById('admin-logo-input');
-        if (isEditing && !logoInput) {
+        // Mostrar botón de subcarpeta si hay categoría seleccionada
+        if (currentCategory) {
+          document.getElementById('add-folder-btn').style.display = isEditingMode ? 'block' : 'none';
+        }
+
+        // Control para cambiar logo
+        let logoInput = document.getElementById('logo-file-input');
+        if (isEditingMode && !logoInput) {
           logoInput = document.createElement('input');
           logoInput.type = 'file';
-          logoInput.id = 'admin-logo-input';
+          logoInput.id = 'logo-file-input';
           logoInput.accept = 'image/*';
-          logoInput.style.cssText = 'position:fixed;top:60px;right:15px;z-index:999999;background:white;padding:5px;border-radius:4px;';
-          logoInput.onchange = updateLogoImg;
+          logoInput.style.cssText = 'position:fixed; top:60px; right:15px; z-index:99999; background:#fff; color:#000; padding:5px; border-radius:4px;';
+          logoInput.onchange = uploadLogo;
           document.body.appendChild(logoInput);
-        } else if (!isEditing && logoInput) {
+        } else if (!isEditingMode && logoInput) {
           logoInput.remove();
         }
       };
-      
       document.body.appendChild(adminBtn);
     }
-  });
 
-  // 3. Función para cambiar y guardar el Logo en la cabecera
-  function updateLogoImg(event) {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const imgData = e.target.result;
-        applyLogoToHeader(imgData);
-        localStorage.setItem('mstize_logo', imgData);
-      };
-      reader.readAsDataURL(file);
+    function selectCategory(cat) {
+      currentCategory = cat;
+      document.getElementById('category-title').innerText = cat.toUpperCase();
+      document.getElementById('add-folder-btn').style.display = isEditingMode ? 'block' : 'none';
+      renderFolders();
     }
-  }
 
-  function applyLogoToHeader(imgData) {
-    const header = document.querySelector('header') || document.body;
-    let logoImg = document.getElementById('site-logo-img');
-    if (!logoImg) {
-      logoImg = document.createElement('img');
-      logoImg.id = 'site-logo-img';
-      logoImg.style.maxHeight = '50px';
-      logoImg.style.marginRight = '10px';
-      header.insertBefore(logoImg, header.firstChild);
-    }
-    logoImg.src = imgData;
-    logoImg.style.display = 'inline-block';
-  }
-
-  // 4. Abrir categoría
-  function openCategory(categoryName) {
-    currentCategory = categoryName;
-    alert('Abriendo sección: ' + categoryName.toUpperCase());
-  }
-
-  // 5. Crear subcarpeta
-  function createSubfolder() {
-    if (!currentCategory) {
-      alert('Primero selecciona una categoría (Playeras, Novedades, etc.)');
-      return;
-    }
-    const folderName = prompt('Nombre de la nueva subcarpeta (ej. 15 de Septiembre):');
-    if (folderName) {
-      if (!catalogData[currentCategory]) {
-        catalogData[currentCategory] = [];
+    function createSubfolder() {
+      const folderName = prompt('Nombre de la nueva subcarpeta (ej. 15 de Septiembre):');
+      if (folderName) {
+        if (!catalogData[currentCategory]) catalogData[currentCategory] = [];
+        catalogData[currentCategory].push({ name: folderName, images: [] });
+        saveAndRender();
       }
-      catalogData[currentCategory].push({
-        name: folderName,
-        images: []
-      });
-      localStorage.setItem('mstize_catalog', JSON.stringify(catalogData));
-      alert('Carpeta "' + folderName + '" creada exitosamente en ' + currentCategory.toUpperCase());
     }
-  }
 
-  // 6. Subir imágenes
-  function uploadImagesToFolder(event, folderIndex) {
-    const files = event.target.files;
-    if (files.length > 0 && currentCategory && catalogData[currentCategory][folderIndex]) {
+    function renderFolders() {
+      const container = document.getElementById('folders-container');
+      container.innerHTML = '';
+      const folders = catalogData[currentCategory] || [];
+
+      if (folders.length === 0) {
+        container.innerHTML = '<p style="color:#888;">No hay subcarpetas creadas en esta sección.</p>';
+        return;
+      }
+
+      folders.forEach((folder, folderIdx) => {
+        const block = document.createElement('div');
+        block.className = 'folder-block';
+        
+        let uploadHTML = isEditingMode ? `
+          <input type="file" multiple accept="image/*" style="margin-top:10px;" onchange="uploadImages(event, ${folderIdx})">
+        ` : '';
+
+        let imagesHTML = folder.images.map(imgSrc => <img src="${imgSrc}">).join('');
+
+        block.innerHTML = `
+          <h4 style="margin:0; color:#fff;">📁 ${folder.name}</h4>
+          ${uploadHTML}
+          <div class="gallery">${imagesHTML}</div>
+        `;
+        container.appendChild(block);
+      });
+    }
+
+    function uploadImages(event, folderIdx) {
+      const files = event.target.files;
+      if (!files.length) return;
+
+      let loaded = 0;
       Array.from(files).forEach(file => {
         const reader = new FileReader();
         reader.onload = function(e) {
-          catalogData[currentCategory][folderIndex].images.push(e.target.result);
-          localStorage.setItem('mstize_catalog', JSON.stringify(catalogData));
+          catalogData[currentCategory][folderIdx].images.push(e.target.result);
+          loaded++;
+          if (loaded === files.length) saveAndRender();
         };
         reader.readAsDataURL(file);
       });
-      alert('Imágenes agregadas correctamente');
     }
-  }
-</script>
+
+    function uploadLogo(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const imgData = e.target.result;
+          displayLogo(imgData);
+          localStorage.setItem('mstize_logo', imgData);
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function displayLogo(imgData) {
+      const box = document.getElementById('logo-box');
+      box.innerHTML = <img src="${imgData}" style="max-height: 50px;">;
+    }
+
+    function saveAndRender() {
+      localStorage.setItem('mstize_catalog', JSON.stringify(catalogData));
+      renderFolders();
+    }
+  </script>
 </body>
 </html>
